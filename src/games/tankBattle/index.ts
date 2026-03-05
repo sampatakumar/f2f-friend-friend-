@@ -72,7 +72,7 @@ class Tank extends Phaser.GameObjects.Container {
             bullet.setActive(true);
             bullet.setVisible(true);
             const angle = this.turret.rotation - Math.PI / 2;
-            this.scene.physics.velocityFromRotation(angle, 400, bullet.body.velocity);
+            this.scene.physics.velocityFromRotation(angle, 400, (bullet.body as Phaser.Physics.Arcade.Body).velocity);
             bullet.rotation = angle;
             (bullet as any).ownerId = this.playerId;
         }

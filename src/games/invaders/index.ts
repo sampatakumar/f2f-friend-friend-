@@ -104,7 +104,7 @@ class InvadersScene extends Phaser.Scene {
         if (bullet) {
             bullet.setActive(true);
             bullet.setVisible(true);
-            bullet.body.velocity.y = -400;
+            (bullet.body as Phaser.Physics.Arcade.Body).velocity.y = -400;
         }
     }
 
@@ -115,7 +115,7 @@ class InvadersScene extends Phaser.Scene {
             if (bullet) {
                 bullet.setActive(true);
                 bullet.setVisible(true);
-                bullet.body.velocity.y = 200;
+                (bullet.body as Phaser.Physics.Arcade.Body).velocity.y = 200;
             }
         }
     }
@@ -155,7 +155,7 @@ class InvadersPlugin implements GamePlugin {
     private game: Phaser.Game | null = null;
     private scene: InvadersScene | null = null;
 
-    init(container: HTMLDivElement, players: Player[], emitState: (state: any) => void): void {
+    init(container: HTMLDivElement, players: Player[], _emitState: (state: any) => void): void {
         const config: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
             parent: container,
