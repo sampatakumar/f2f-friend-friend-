@@ -1,0 +1,10 @@
+﻿src/games/racing3d/index.tsx(1,22): error TS1484: 'Root' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/games/racing3d/index.tsx(5,10): error TS1484: 'GamePlugin' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/games/racing3d/index.tsx(19,56): error TS6133: 'emitState' is declared but its value is never read.
+src/games/racing3d/RacingScene.tsx(63,16): error TS6133: 'player' is declared but its value is never read.
+src/games/racing3d/RacingScene.tsx(106,70): error TS2339: Property 'delta' does not exist on type 'RootState'.
+src/games/racing3d/RacingScene.tsx(108,70): error TS2339: Property 'delta' does not exist on type 'RootState'.
+src/games/racing3d/RacingScene.tsx(119,48): error TS2339: Property 'delta' does not exist on type 'RootState'.
+src/main.tsx(5,10): error TS6133: 'GameRegistry' is declared but its value is never read.
+src/store/appStore.ts(90,19): error TS2345: Argument of type '"leave-room"' is not assignable to parameter of type 'ReservedOrUserEventNames<SocketReservedEvents, ServerToClientEvents>'.
+src/ui/HostView.tsx(5,1): error TS6133: 'EngineWrapper' is declared but its value is never read.

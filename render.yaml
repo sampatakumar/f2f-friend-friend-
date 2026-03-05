@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: f2f-socket-server
+    env: node
+    plan: free
+    region: oregon 
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    rootDir: server
+    envVars:
+      - key: NODE_ENV
+        value: production
