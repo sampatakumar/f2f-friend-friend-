@@ -24,9 +24,29 @@ export default function ControllerView() {
         };
     }, []);
 
+    const requestFullscreenAndLandscape = async () => {
+        try {
+            if (document.documentElement.requestFullscreen) {
+                await document.documentElement.requestFullscreen();
+            }
+            // Attempt to lock orientation to landscape
+            const so = screen.orientation as any;
+            if (so && so.lock) {
+                await so.lock('landscape').catch((err: any) => {
+                    console.warn('Orientation lock failed:', err);
+                });
+            }
+        } catch (err) {
+            console.warn('Fullscreen request failed:', err);
+        }
+    };
+
     const handleJoin = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim() || !roomId) return;
+
+        // Request fullscreen upon user interaction
+        requestFullscreenAndLandscape();
 
         const res = await joinRoom(roomId, name);
         if (res.success) {
@@ -86,10 +106,13 @@ export default function ControllerView() {
                 <h1 className="text-3xl font-bold mb-8">{me.name}</h1>
 
                 <button
-                    onClick={() => setReady(!me.isReady)}
+                    onClick={() => {
+                        requestFullscreenAndLandscape();
+                        setReady(!me.isReady);
+                    }}
                     className={`w-full py-6 rounded-2xl font-black text-2xl transition-colors ${me.isReady
-                            ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-900'
-                            : 'bg-slate-700 hover:bg-slate-600 text-white'
+                        ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-900'
+                        : 'bg-slate-700 hover:bg-slate-600 text-white'
                         }`}
                 >
                     {me.isReady ? 'READY!' : 'TAP TO READY UP'}

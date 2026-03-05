@@ -6,7 +6,7 @@ import { EngineWrapper } from '../engine/EngineWrapper';
 
 const GAMES = [
     { id: 'racing3d', title: '3D Racing', maxPlayers: 8 },
-    // add others later
+    { id: 'space-arena', title: 'Space Arena', maxPlayers: 8 },
 ];
 
 export default function HostView() {

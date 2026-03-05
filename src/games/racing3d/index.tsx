@@ -1,4 +1,5 @@
 import { createRoot, type Root } from 'react-dom/client';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import { KeyboardControls } from '@react-three/drei';
@@ -57,13 +58,15 @@ class Racing3DPlugin implements GamePlugin {
                 ]}
             >
                 <Canvas shadows camera={{ position: [0, 10, 20], fov: 50 }}>
-                    <color attach="background" args={['#87CEEB']} />
-                    <ambientLight intensity={0.5} />
-                    <directionalLight castShadow position={[10, 20, 10]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
+                    <Suspense fallback={null}>
+                        <color attach="background" args={['#87CEEB']} />
+                        <ambientLight intensity={0.5} />
+                        <directionalLight castShadow position={[10, 20, 10]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
 
-                    <Physics gravity={[0, -9.81, 0]}>
-                        <RacingScene players={this.players} inputState={this.inputState} />
-                    </Physics>
+                        <Physics gravity={[0, -9.81, 0]}>
+                            <RacingScene players={this.players} inputState={this.inputState} />
+                        </Physics>
+                    </Suspense>
                 </Canvas>
             </KeyboardControls>
         );
