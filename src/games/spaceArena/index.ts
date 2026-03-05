@@ -81,6 +81,25 @@ class SpaceArenaPlugin implements GamePlugin {
         this.animationFrameId = requestAnimationFrame(this.gameLoop);
     }
 
+    updatePlayers(players: Player[]): void {
+        players.forEach((p, index) => {
+            if (!this.players[p.id]) {
+                // New player joined mid-game
+                this.inputState[p.id] = { x: 0, y: 0, btnA: false, btnB: false, btnX: false, btnY: false, btnTurbo: false };
+                this.players[p.id] = {
+                    id: p.id,
+                    name: p.name,
+                    x: WIDTH / 2,
+                    y: HEIGHT / 2,
+                    color: COLORS[index % COLORS.length],
+                    score: 0,
+                    lastShot: 0,
+                    rotation: 0,
+                };
+            }
+        });
+    }
+
     updateInput(playerId: string, input: ControllerInput): void {
         this.inputState[playerId] = input;
     }

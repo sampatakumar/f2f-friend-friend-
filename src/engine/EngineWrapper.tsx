@@ -20,7 +20,7 @@ export function EngineWrapper({ gameId }: { gameId: string }) {
 
         // Initialize the game
         plugin.init(containerRef.current, players, (_state) => {
-            // Optional: emit state to controllers if the game needs to send data back
+            // Optional: emit state to controllers
         });
 
         gameRef.current = plugin;
@@ -39,7 +39,14 @@ export function EngineWrapper({ gameId }: { gameId: string }) {
             }
             setOnPlayerInput(() => { });
         };
-    }, [gameId, room, setOnPlayerInput]);
+    }, [gameId, setOnPlayerInput]); // Only re-init when gameId changes, not when room changes
+
+    // Update players when room changes
+    useEffect(() => {
+        if (gameRef.current && room) {
+            gameRef.current.updatePlayers(Object.values(room.players));
+        }
+    }, [room]);
 
     return (
         <div

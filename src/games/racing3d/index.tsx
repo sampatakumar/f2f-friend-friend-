@@ -2,7 +2,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import { KeyboardControls } from '@react-three/drei';
+import { KeyboardControls, Html } from '@react-three/drei';
 import type { GamePlugin } from '../../engine/GamePlugin';
 import type { Player, ControllerInput } from '../../network/types';
 import { RacingScene } from './RacingScene';
@@ -31,8 +31,11 @@ class Racing3DPlugin implements GamePlugin {
 
     updateInput(playerId: string, input: ControllerInput): void {
         this.inputState[playerId] = input;
-        // We don't need to re-render React on every input, 
-        // the RacingScene component will read from a proxy or ref to the inputState instance
+    }
+
+    updatePlayers(players: Player[]): void {
+        this.players = players;
+        this.render();
     }
 
     destroy(): void {
@@ -58,11 +61,23 @@ class Racing3DPlugin implements GamePlugin {
                 ]}
             >
                 <Canvas shadows camera={{ position: [0, 10, 20], fov: 50 }}>
-                    <Suspense fallback={null}>
-                        <color attach="background" args={['#87CEEB']} />
-                        <ambientLight intensity={0.5} />
-                        <directionalLight castShadow position={[10, 20, 10]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
+                    <color attach="background" args={['#87CEEB']} />
+                    <ambientLight intensity={0.5} />
+                    <directionalLight castShadow position={[10, 20, 10]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
 
+                    {/* DIAGNOSTIC CUBE: Should be visible even if physics fails */}
+                    <mesh position={[0, 0, -10]}>
+                        <boxGeometry args={[1, 1, 1]} />
+                        <meshStandardMaterial color="red" />
+                    </mesh>
+
+                    <Suspense fallback={
+                        <Html center>
+                            <div style={{ color: 'white', background: 'rgba(0,0,0,0.5)', padding: '20px', borderRadius: '10px' }}>
+                                <h2>Loading Physics Engine...</h2>
+                            </div>
+                        </Html>
+                    }>
                         <Physics gravity={[0, -9.81, 0]}>
                             <RacingScene players={this.players} inputState={this.inputState} />
                         </Physics>

@@ -21,6 +21,11 @@ export interface GamePlugin {
     updateInput(playerId: string, input: ControllerInput): void;
 
     /**
+     * Update the list of active players
+     */
+    updatePlayers(players: Player[]): void;
+
+    /**
      * Destroy the game and clean up resources
      */
     destroy(): void;
