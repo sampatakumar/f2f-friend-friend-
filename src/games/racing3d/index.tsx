@@ -65,12 +65,6 @@ class Racing3DPlugin implements GamePlugin {
                     <ambientLight intensity={0.5} />
                     <directionalLight castShadow position={[10, 20, 10]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
 
-                    {/* DIAGNOSTIC CUBE: Should be visible even if physics fails */}
-                    <mesh position={[0, 0, -10]}>
-                        <boxGeometry args={[1, 1, 1]} />
-                        <meshStandardMaterial color="red" />
-                    </mesh>
-
                     <Suspense fallback={
                         <Html center>
                             <div style={{ color: 'white', background: 'rgba(0,0,0,0.5)', padding: '20px', borderRadius: '10px' }}>

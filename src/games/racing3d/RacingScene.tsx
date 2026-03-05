@@ -92,7 +92,7 @@ export function RacingScene({ players, inputState }: RacingSceneProps) {
                     key={p.id}
                     player={p}
                     index={index}
-                    inputs={inputState[p.id] || { x: 0, y: 0, btnA: false, btnB: false, btnX: false, btnY: false, btnTurbo: false }}
+                    inputState={inputState}
                     checkpointData={{
                         lap: lapData[p.id]?.lap || 1,
                         cp: lapData[p.id]?.cp || 0,
@@ -162,7 +162,7 @@ export function RacingScene({ players, inputState }: RacingSceneProps) {
     );
 }
 
-function Car({ player: _player, index, inputs, checkpointData, onCheckpoint }: { player: Player, index: number, inputs: ControllerInput, checkpointData: any, onCheckpoint: (cp: number) => void }) {
+function Car({ player, index, inputState, checkpointData, onCheckpoint }: { player: Player, index: number, inputState: Record<string, ControllerInput>, checkpointData: any, onCheckpoint: (cp: number) => void }) {
     const bodyRef = useRef<RapierRigidBody>(null);
     const [, getKeys] = useKeyboardControls();
 
@@ -207,11 +207,13 @@ function Car({ player: _player, index, inputs, checkpointData, onCheckpoint }: {
         // -- LOGIC: PHYSICS / DRIVING --
         if (checkpointData.finished) {
             // Apply brake if finished
-            body.setLinearDamping(4);
+            body.setLinearDamping(10);
             return;
         }
 
         const keys = getKeys();
+        const inputs = inputState[player.id] || { x: 0, y: 0, btnA: false, btnB: false, btnX: false, btnY: false, btnTurbo: false };
+
         let forward = 0;
         if (keys.forward || inputs.y < -0.2) forward = 1;
         if (keys.backward || inputs.y > 0.2) forward = -1;
@@ -228,11 +230,11 @@ function Car({ player: _player, index, inputs, checkpointData, onCheckpoint }: {
         const velocityVec = new THREE.Vector3(currentVel.x, currentVel.y, currentVel.z);
         const speed = velocityVec.length();
 
-        // Physics constants
-        const acceleration = 60;
-        const maxSpeed = 50;
-        const maxReverseSpeed = 15;
-        const boostMultiplier = (keys.boost || inputs.btnA) ? 1.4 : 1;
+        // Physics constants (TUNED FOR 80KG UNIT)
+        const acceleration = 3000;
+        const maxSpeed = 60;
+        const maxReverseSpeed = 20;
+        const boostMultiplier = (keys.boost || inputs.btnA) ? 1.6 : 1;
 
         if (forward !== 0) {
             const isAccelerating = forward > 0;
@@ -249,9 +251,9 @@ function Car({ player: _player, index, inputs, checkpointData, onCheckpoint }: {
 
         // Apply turning (torque)
         if (turn !== 0 && speed > 2) {
-            const turnSpeed = 20;
-            const speedFactor = Math.min(speed / 10, 1); // Less turn at very low speeds
-            const dirMultiplier = forward >= 0 ? 1 : -1; // Reverse steering when backing up matches driving style better usually
+            const turnSpeed = 1500;
+            const speedFactor = Math.min(speed / 10, 1.5); // Increase turn capability at speed
+            const dirMultiplier = forward >= 0 ? 1 : -1;
             body.applyTorqueImpulse({
                 x: 0,
                 y: turn * dirMultiplier * turnSpeed * speedFactor * delta,
