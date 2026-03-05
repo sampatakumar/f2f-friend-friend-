@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { RigidBody, CuboidCollider, RapierRigidBody } from '@react-three/rapier';
+import { RigidBody, RapierRigidBody } from '@react-three/rapier';
 import { useKeyboardControls, Html } from '@react-three/drei';
 import type { Player, ControllerInput } from '../../network/types';
 import * as THREE from 'three';
@@ -94,7 +94,7 @@ export function RacingScene({ players, inputState }: RacingSceneProps) {
                         lap: lapData[p.id]?.lap || 1,
                         finished: lapData[p.id]?.finished || false
                     }}
-                    onLapComplete={(lap) => {
+                    onLapComplete={(lap: number) => {
                         setLapData(prev => {
                             const d = prev[p.id];
                             if (!d || d.finished) return prev;
@@ -121,7 +121,7 @@ export function RacingScene({ players, inputState }: RacingSceneProps) {
                 </div>
 
                 {winner && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 overflow-hidden">
                         <div className="bg-white p-12 rounded-3xl text-center shadow-2xl">
                             <h1 className="text-5xl font-black text-indigo-600 mb-2">WINNER!</h1>
                             <p className="text-3xl font-bold text-slate-800">{winner.name}</p>
