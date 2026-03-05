@@ -44,7 +44,7 @@ export function EngineWrapper({ gameId }: { gameId: string }) {
     return (
         <div
             ref={containerRef}
-            className="w-full h-full bg-black relative flex items-center justify-center overflow-hidden"
+            className="absolute inset-0 w-full h-full bg-black overflow-hidden"
             id="f2f-game-container"
         />
     );

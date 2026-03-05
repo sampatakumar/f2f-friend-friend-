@@ -58,7 +58,7 @@ export default function HostView() {
     // State 2: Active game playing
     if (activeGame) {
         return (
-            <div className="w-full h-full relative">
+            <div className="absolute inset-0 w-full h-full bg-black">
                 <div className="absolute top-4 left-4 z-50 bg-black/50 p-2 rounded text-white flex gap-4 backdrop-blur-md">
                     <span>Room: <strong className="text-emerald-400">{roomId}</strong></span>
                     <span>Game: <strong className="text-blue-400">{activeGame}</strong></span>
@@ -71,9 +71,7 @@ export default function HostView() {
                 </div>
 
                 {/* GAME ENGINE CONTAINER WILL GO HERE */}
-                <div className="w-full h-full flex items-center justify-center bg-black">
-                    <EngineWrapper gameId={activeGame} />
-                </div>
+                <EngineWrapper gameId={activeGame} />
             </div>
         );
     }
