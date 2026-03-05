@@ -5,7 +5,9 @@ import { motion } from 'framer-motion';
 import { EngineWrapper } from '../engine/EngineWrapper';
 
 const GAMES = [
-    { id: 'racing3d', title: '3D Racing', maxPlayers: 8 },
+    { id: 'racing3d', title: '3D Racing', description: 'Fast-paced 3D racing action' },
+    { id: 'tank-battle', title: 'Tank Battle', description: 'Classic top-down tank combat' },
+    { id: 'invaders', title: 'Space Invaders', description: 'Cooperative arcade shooter' },
     { id: 'space-arena', title: 'Space Arena', maxPlayers: 8 },
 ];
 

@@ -2,12 +2,17 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css';
 import App from './App.tsx';
-import { registerGame } from './engine/GamePlugin';
-import { Racing3D } from './games/racing3d';
 import { SpaceArena } from './games/spaceArena';
+import { Racing3D } from './games/racing3d';
+import { TankBattle } from './games/tankBattle';
+import { Invaders } from './games/invaders';
+import { registerGame } from './engine/GamePlugin';
 
-registerGame(Racing3D);
+// Register all games
 registerGame(SpaceArena);
+registerGame(Racing3D);
+registerGame(TankBattle);
+registerGame(Invaders);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
